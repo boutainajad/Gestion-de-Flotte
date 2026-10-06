@@ -1,6 +1,7 @@
 const Trajet = require('../models/Trajet');
 const disponibiliteService = require('./disponibiliteService');
 const calculService = require('./calculService');
+const maintenanceService = require('./maintenanceService');
 
 const getAll = async (filters = {}) => {
   const query = {};
@@ -96,7 +97,6 @@ const saisirKmArrivee = async (trajetId, { kmArrivee, volumeGasoil, remarques },
   trajet.remarques = remarques || '';
   trajet.dateArriveeReelle = new Date();
   trajet.statut = 'termine';
-
   await trajet.save();
 
   await require('../models/Camion').findByIdAndUpdate(
@@ -109,6 +109,12 @@ const saisirKmArrivee = async (trajetId, { kmArrivee, volumeGasoil, remarques },
       trajet.remorque,
       { $inc: { kilometrage: kmParcourus } }
     );
+  }
+
+  await maintenanceService.verifierUsurePneus(trajet.camion);
+  await maintenanceService.verifierMaintenance(trajet.camion, 'Camion');
+  if (trajet.remorque) {
+    await maintenanceService.verifierMaintenance(trajet.remorque, 'Remorque');
   }
 
   return trajet;

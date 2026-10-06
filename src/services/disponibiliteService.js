@@ -2,21 +2,12 @@ const Trajet = require('../models/Trajet');
 const Camion = require('../models/Camion');
 const Remorque = require('../models/Remorque');
 const User = require('../models/User');
-
-const trouverConflit = async (champ, id, dateDebut, dateFin) => {
-  return await Trajet.findOne({
-    [champ]: id,
-    statut: { $in: ['a_faire', 'en_cours'] },
-    dateDepartPrevue: { $lte: dateFin },
-    dateArriveePrevue: { $gte: dateDebut }
-  });
-};
-
+const maintenanceService = require('./maintenanceService');
 
 const verifierDisponibilite = async ({
   camionId, remorqueId, chauffeurId,
   dateDepart, dateArrivee,
-  trajetIdExclu = null  
+  trajetIdExclu = null
 }) => {
 
   const camion = await Camion.findById(camionId);
@@ -26,10 +17,18 @@ const verifierDisponibilite = async ({
   if (camion.statut === 'archive')
     throw { status: 409, message: 'Camion archivé' };
 
+  const camionBloque = await maintenanceService.verifierVehiculeBloque(camionId, 'Camion');
+  if (camionBloque)
+    throw { status: 409, message: 'Camion avec maintenance en attente' };
+
   const remorque = await Remorque.findById(remorqueId);
   if (!remorque) throw { status: 404, message: 'Remorque introuvable' };
   if (remorque.statut === 'maintenance')
     throw { status: 409, message: 'Remorque en maintenance' };
+
+  const remorqueBloquee = await maintenanceService.verifierVehiculeBloque(remorqueId, 'Remorque');
+  if (remorqueBloquee)
+    throw { status: 409, message: 'Remorque avec maintenance en attente' };
 
   const chauffeur = await User.findById(chauffeurId);
   if (!chauffeur) throw { status: 404, message: 'Chauffeur introuvable' };

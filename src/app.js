@@ -8,6 +8,8 @@ const camionRoutes = require('./routes/camionRoutes');
 const remorqueRoutes = require('./routes/remorqueRoutes');
 const pneuRoutes = require('./routes/pneuRoutes');
 const trajetRoutes = require('./routes/trajetRoutes');
+const maintenanceRoutes = require('./routes/maintenanceRoutes');
+const regleRoutes = require('./routes/regleRoutes');
 
 const errorHandler = require('./middlewares/errorHandler');
 
@@ -27,6 +29,8 @@ app.use('/api/camions', camionRoutes);
 app.use('/api/remorques', remorqueRoutes);
 app.use('/api/pneus', pneuRoutes);
 app.use('/api/trajets', trajetRoutes);
+app.use('/api/maintenance', maintenanceRoutes);
+app.use('/api/regles', regleRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Route introuvable' });
