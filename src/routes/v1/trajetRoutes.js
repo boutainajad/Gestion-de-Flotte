@@ -1,11 +1,11 @@
 const router = require('express').Router();
-const ctrl = require('../controllers/trajetController');
-const validate = require('../middlewares/validate');
+const ctrl = require('../../controllers/trajetController');
+const validate = require('../../middlewares/validate');
 const {
   trajetSchema, assignationSchema,
   kmDepartSchema, kmArriveeSchema
-} = require('../validators/trajetValidator');
-const { authenticate, authorize } = require('../middlewares/auth');
+} = require('../../validators/trajetValidator');
+const { authenticate, authorize } = require('../../middlewares/auth');
 
 router.use(authenticate);
 

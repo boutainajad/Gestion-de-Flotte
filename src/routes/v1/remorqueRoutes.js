@@ -1,8 +1,8 @@
 const router = require('express').Router();
-const ctrl = require('../controllers/remorqueController');
-const validate = require('../middlewares/validate');
-const { remorqueSchema } = require('../validators/ressourceValidator');
-const { authenticate, authorize } = require('../middlewares/auth');
+const ctrl = require('../../controllers/remorqueController');
+const validate = require('../../middlewares/validate');
+const { remorqueSchema } = require('../../validators/ressourceValidator');
+const { authenticate, authorize } = require('../../middlewares/auth');
 
 router.use(authenticate, authorize('admin'));
 
