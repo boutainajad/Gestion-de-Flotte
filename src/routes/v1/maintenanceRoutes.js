@@ -4,6 +4,7 @@ const validate = require('../../middlewares/validate');
 const { traiterSchema } = require('../../validators/maintenanceValidator');
 const { authenticate, authorize } = require('../../middlewares/auth');
 
+
 router.use(authenticate, authorize('admin'));
 
 router.get('/alertes', ctrl.getAlertes);

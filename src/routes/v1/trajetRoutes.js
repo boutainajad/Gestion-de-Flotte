@@ -7,6 +7,7 @@ const {
 } = require('../../validators/trajetValidator');
 const { authenticate, authorize } = require('../../middlewares/auth');
 
+
 router.use(authenticate);
 
 router.get('/mes-trajets', authorize('chauffeur'), ctrl.getMesTrajets);

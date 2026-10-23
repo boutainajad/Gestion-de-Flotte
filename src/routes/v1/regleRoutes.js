@@ -4,6 +4,7 @@ const validate = require('../../middlewares/validate');
 const { regleSchema } = require('../../validators/maintenanceValidator');
 const { authenticate, authorize } = require('../../middlewares/auth');
 
+
 router.use(authenticate, authorize('admin'));
 
 router.get('/', ctrl.getAll);

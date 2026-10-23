@@ -4,6 +4,7 @@ const validate = require('../../middlewares/validate');
 const { pneuSchema } = require('../../validators/ressourceValidator');
 const { authenticate, authorize } = require('../../middlewares/auth');
 
+
 router.use(authenticate, authorize('admin'));
 
 router.get('/', ctrl.getAll);
