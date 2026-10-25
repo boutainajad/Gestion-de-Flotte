@@ -17,12 +17,9 @@ describe('calculService', () => {
       expect(calculerConsommation(450, 90)).toBe(20);
     });
 
-    it('retourne 0 si pas de gasoil', () => {
-      expect(calculerConsommation(450, 0)).toBe(0);
-    });
-
-    it('retourne 0 si km nuls', () => {
+    it('retourne 0 si données invalides', () => {
       expect(calculerConsommation(0, 90)).toBe(0);
+      expect(calculerConsommation(450, 0)).toBe(0);
     });
   });
 });
